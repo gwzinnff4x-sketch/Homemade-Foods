@@ -1,774 +1,125 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Homemade Foods — Receitas de Verdade</title>
-<meta name="description" content="Receitas caseiras testadas de verdade: salgados, doces, caldos e bebidas, com ingredientes fáceis de achar e modo de preparo sem enrolação.">
-<meta property="og:title" content="Homemade Foods — Receitas de Verdade">
-<meta property="og:description" content="Receitas caseiras testadas de verdade: salgados, doces, caldos e bebidas, com ingredientes fáceis de achar e modo de preparo sem enrolação.">
-<meta property="og:type" content="website">
-<meta name="theme-color" content="#232320">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<style>
-  :root{
-    --charcoal:#232320; --cream:#FBF3E7; --cream-2:#F3E8D6;
-    --tomato:#C1442E; --sage:#6E7F5C; --mustard:#E3A23A;
-    --line: rgba(35,35,32,.12); --line-inv: rgba(251,243,231,.18);
-  }
-  *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  body{margin:0; background:var(--cream); color:var(--charcoal); font-family:'Inter',sans-serif;}
-  a{color:inherit; text-decoration:none;}
-  .wrap{max-width:1120px; margin:0 auto; padding:0 40px;}
-  @media (max-width:640px){ .wrap{padding:0 20px;} }
-  .gingham{background-image:linear-gradient(90deg, rgba(193,68,46,.10) 50%, transparent 50%), linear-gradient(rgba(193,68,46,.10) 50%, transparent 50%); background-size:14px 14px;}
-
-  header.nav{position:sticky; top:0; z-index:50; background:var(--charcoal); color:var(--cream); border-bottom:1px solid var(--line-inv);}
-  header.nav .wrap{display:flex; align-items:center; justify-content:space-between; height:68px;}
-  .brand{font-family:'Fraunces', serif; font-weight:600; font-size:20px; display:flex; align-items:center; gap:8px;}
-  .brand .dot{width:9px;height:9px;border-radius:50%;background:var(--mustard);}
-  nav.links{display:flex; gap:26px; font-size:14px; align-items:center;}
-  nav.links a{opacity:.8;}
-  .admin-btn{background:transparent; border:1px solid var(--line-inv); color:var(--cream); font-family:'JetBrains Mono',monospace; font-size:12px; padding:8px 14px; border-radius:20px; cursor:pointer;}
-
-  .hero{padding:100px 0 90px;}
-  .hero .wrap{display:grid; grid-template-columns:1.1fr .9fr; gap:60px; align-items:center;}
-  @media (max-width:860px){ .hero .wrap{grid-template-columns:1fr;} }
-  .kicker{font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--tomato); margin-bottom:14px; display:block;}
-  h1.hero-title{font-family:'Fraunces', serif; font-weight:600; font-size:clamp(40px,6vw,64px); line-height:1.02; margin:0 0 20px;}
-  h1.hero-title em{font-style:italic; color:var(--tomato);}
-  .hero p.lede{font-size:18px; line-height:1.6; color:#4b4842; max-width:460px; margin:0 0 28px;}
-  .hero-actions{display:flex; gap:14px; flex-wrap:wrap;}
-  .btn{display:inline-block; padding:13px 24px; font-weight:600; font-size:14.5px; border-radius:2px; border:1px solid var(--charcoal); cursor:pointer;}
-  .btn.solid{background:var(--charcoal); color:var(--cream);}
-  .btn.ghost{background:transparent; color:var(--charcoal);}
-  .hero-badge{justify-self:end; width:230px; height:230px; border-radius:50%; background:var(--charcoal); color:var(--cream); display:flex; align-items:center; justify-content:center; text-align:center; font-family:'Fraunces',serif; font-size:15px; line-height:1.4; padding:20px; border:6px solid var(--mustard);}
-  .hero-badge .small{font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.1em; opacity:.7; text-transform:uppercase; margin-top:8px; display:block;}
-
-  .values{border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:26px 0;}
-  .values .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px;}
-  .value-item{font-family:'JetBrains Mono',monospace; font-size:12.5px; display:flex; align-items:center; gap:8px; color:#4b4842;}
-  .value-item::before{content:'●'; color:var(--sage); font-size:8px;}
-
-  section.about{padding:90px 0;}
-  .about .wrap{display:grid; grid-template-columns:.85fr 1.15fr; gap:60px; align-items:start;}
-  @media (max-width:860px){ .about .wrap{grid-template-columns:1fr;} }
-  .section-label{font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--tomato); margin-bottom:14px; display:block;}
-  h2.section-title{font-family:'Fraunces',serif; font-weight:600; font-size:clamp(28px,4vw,40px); margin:0 0 18px;}
-  .about p{font-size:16.5px; line-height:1.7; color:#3a3732; margin:0 0 16px;}
-  .stat-grid{display:grid; grid-template-columns:1fr 1fr; gap:24px;}
-  .stat{border-left:2px solid var(--mustard); padding-left:16px;}
-  .stat b{font-family:'Fraunces',serif; font-size:32px; display:block;}
-  .stat span{font-size:13px; color:#5a564d;}
-
-  section.recipes{padding:90px 0 100px; background:var(--charcoal); color:var(--cream);}
-  section.recipes .section-label{color:var(--mustard);}
-  section.recipes h2.section-title{color:var(--cream);}
-  .recipes-head{display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:20px; margin-bottom:36px;}
-  .controls{display:flex; gap:10px; flex-wrap:wrap; align-items:center;}
-  .tabs-r{display:flex; gap:6px; flex-wrap:wrap;}
-  .tabs-r button{font-family:'JetBrains Mono',monospace; font-size:12px; background:transparent; border:1px solid var(--line-inv); color:var(--cream); padding:8px 14px; border-radius:20px; cursor:pointer; opacity:.7;}
-  .tabs-r button.active{background:var(--mustard); color:var(--charcoal); border-color:var(--mustard); opacity:1; font-weight:600;}
-  .search-r{font-family:'Inter',sans-serif; font-size:14px; padding:8px 14px; background:rgba(251,243,231,.06); border:1px solid var(--line-inv); border-radius:20px; color:var(--cream); min-width:200px;}
-  .search-r::placeholder{color:rgba(251,243,231,.5);}
-  .grid-r{display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:22px;}
-  .card-r{background:rgba(251,243,231,.04); border:1px solid var(--line-inv); padding:22px 22px 24px; border-radius:4px; cursor:pointer; transition:background .15s, transform .15s;}
-  .card-r:hover{background:rgba(251,243,231,.08); transform:translateY(-3px);}
-  .card-icon{width:34px; height:34px; margin-bottom:10px;}
-  .card-r .tag{font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--mustard);}
-  .card-r h3{font-family:'Fraunces',serif; font-size:24px; margin:8px 0 8px; font-weight:600;}
-  .card-r p{font-size:14px; color:rgba(251,243,231,.7); line-height:1.5; margin:0 0 12px;}
-  .stars-mini{font-size:13px; color:var(--mustard); margin-bottom:10px;}
-  .meta-r{display:flex; gap:14px; font-family:'JetBrains Mono',monospace; font-size:11px; color:rgba(251,243,231,.55); border-top:1px dashed var(--line-inv); padding-top:10px;}
-  .hidden{display:none !important;}
-  .empty-r{font-family:'JetBrains Mono',monospace; font-size:13px; color:rgba(251,243,231,.5); padding:20px 0;}
-
-  section.contact{padding:90px 0;}
-  .contact-box{background:var(--cream-2); border:1px solid var(--line); border-radius:4px; padding:56px 48px; display:grid; grid-template-columns:1fr 1fr; gap:50px; align-items:center;}
-  @media (max-width:800px){ .contact-box{grid-template-columns:1fr; padding:36px 26px;} }
-  .contact-box h2{font-family:'Fraunces',serif; font-size:clamp(24px,3.4vw,32px); margin:0 0 12px; font-weight:600;}
-  .contact-box p{font-size:15.5px; color:#4b4842; line-height:1.6; margin:0;}
-  form.signup{display:flex; flex-direction:column; gap:12px;}
-  form.signup input{font-family:'Inter',sans-serif; font-size:15px; padding:12px 14px; border:1px solid var(--line); border-radius:2px; background:var(--cream);}
-  form.signup button{background:var(--tomato); color:var(--cream); font-weight:600; font-size:14.5px; padding:13px; border:none; border-radius:2px; cursor:pointer;}
-  .form-note{font-family:'JetBrains Mono',monospace; font-size:11.5px; color:#7a756b;}
-
-  footer{background:var(--charcoal); color:rgba(251,243,231,.6); padding:40px 0;}
-  footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px; align-items:center;}
-  footer .brand{color:var(--cream);}
-  footer .foot-links{display:flex; gap:22px; font-size:13px;}
-
-  .overlay{position:fixed; inset:0; background:rgba(20,18,15,.6); display:flex; align-items:flex-start; justify-content:center; padding:40px 16px; overflow-y:auto; z-index:300;}
-  .sheet{max-width:640px; width:100%; background:var(--cream); border-radius:4px; padding:36px 34px 42px; position:relative; box-shadow:0 30px 60px -20px rgba(0,0,0,.5);}
-  .sheet.narrow{max-width:400px;}
-  .sheet .close{position:absolute; top:18px; right:20px; font-family:'JetBrains Mono',monospace; background:none; border:none; font-size:12.5px; color:#6a655c; cursor:pointer;}
-  .sheet .tag{font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--tomato);}
-  .sheet h2{font-family:'Fraunces',serif; font-size:34px; margin:8px 0 4px; font-weight:600;}
-  .sheet .meta-row{display:flex; gap:14px; font-family:'JetBrains Mono',monospace; font-size:11.5px; color:#6a655c; margin-bottom:6px;}
-  .sheet h4{font-family:'JetBrains Mono',monospace; font-size:11.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--sage); margin:22px 0 10px; border-bottom:1px solid var(--line); padding-bottom:6px;}
-  .sheet ul{margin:0; padding-left:18px;}
-  .sheet li{margin-bottom:6px; font-size:15px;}
-  .sheet ol{margin:0; padding-left:20px;}
-  .sheet ol li{margin-bottom:10px; font-size:15px; line-height:1.55;}
-  .note{margin-top:22px; padding:14px 16px; background:var(--cream-2); border-left:3px solid var(--mustard); font-size:14px; color:#4b4842; font-style:italic;}
-
-  .avg-stars{font-size:15px; color:var(--mustard); margin-bottom:2px;}
-  .review-item{border-top:1px solid var(--line); padding:10px 0; font-size:14px;}
-  .review-item b{font-size:13.5px;}
-  .review-stars{color:var(--mustard); font-size:13px;}
-  .review-form{display:flex; flex-direction:column; gap:8px; margin-top:10px;}
-  .review-form input, .review-form select, .review-form textarea{font-family:'Inter',sans-serif; font-size:14px; padding:9px 12px; border:1px solid var(--line); border-radius:2px;}
-  .review-form button{align-self:flex-start; background:var(--sage); color:var(--cream); border:none; padding:9px 18px; border-radius:2px; font-weight:600; font-size:13.5px; cursor:pointer;}
-  .auth-box{background:var(--cream-2); padding:14px 16px; border-radius:2px; font-size:13.5px;}
-  .auth-tabs{display:flex; gap:10px; margin-bottom:10px; font-family:'JetBrains Mono',monospace; font-size:11.5px;}
-  .auth-tabs button{background:none; border:none; cursor:pointer; padding:4px 0; border-bottom:2px solid transparent; color:#6a655c;}
-  .auth-tabs button.active{color:var(--charcoal); border-color:var(--tomato); font-weight:600;}
-  .msg-ok{color:var(--sage); font-size:13px;}
-  .msg-err{color:var(--tomato); font-size:13px;}
-
-  .field{display:flex; flex-direction:column; gap:6px; margin-bottom:14px;}
-  .field label{font-family:'JetBrains Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:#6a655c;}
-  .field input, .field select, .field textarea{font-family:'Inter',sans-serif; font-size:14.5px; padding:10px 12px; border:1px solid var(--line); border-radius:2px; background:#fff;}
-  .field textarea{min-height:90px; resize:vertical;}
-  .error-msg{color:var(--tomato); font-size:13px; margin-top:-6px; margin-bottom:10px;}
-  .admin-row{display:flex; justify-content:space-between; align-items:center; padding:12px 0; border-bottom:1px solid var(--line); gap:10px;}
-  .admin-row .info b{display:block; font-size:15px;}
-  .admin-row .info span{font-size:12px; color:#6a655c;}
-  .admin-actions button{font-family:'JetBrains Mono',monospace; font-size:11.5px; border:1px solid var(--line); background:none; padding:6px 10px; border-radius:2px; cursor:pointer; margin-left:6px;}
-  .admin-actions .del{color:var(--tomato); border-color:var(--tomato);}
-  .admin-actions .ok{color:var(--sage); border-color:var(--sage);}
-  .admin-top{display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; gap:10px; flex-wrap:wrap;}
-  .badge-note{font-family:'JetBrains Mono',monospace; font-size:11px; color:#8a8478; background:var(--cream-2); padding:8px 12px; border-radius:2px; margin-bottom:18px;}
-  .admin-tabs{display:flex; gap:8px; margin-bottom:16px;}
-  .admin-tabs button{font-family:'JetBrains Mono',monospace; font-size:12px; background:var(--cream-2); border:1px solid var(--line); padding:8px 14px; border-radius:20px; cursor:pointer;}
-  .admin-tabs button.active{background:var(--charcoal); color:var(--cream);}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homemade Foods — Receitas de Verdade</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --charcoal: #232320;
+            --cream: #FBF3E7;
+            --tomato: #C1442E;
+            --mustard: #E3A23A;
+            --sage: #6E7F5C;
+        }
+        * { box-sizing: border-box; }
+        body { margin: 0; background: var(--cream); color: var(--charcoal); font-family: 'Inter', sans-serif; line-height: 1.6; }
+        .wrap { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+        header { background: var(--charcoal); color: var(--cream); padding: 20px 0; position: sticky; top: 0; z-index: 100; }
+        header .wrap { display: flex; justify-content: space-between; align-items: center; }
+        .brand { font-family: 'Fraunces', serif; font-size: 24px; font-weight: 700; }
+        nav a { color: var(--cream); text-decoration: none; margin-left: 20px; font-size: 14px; opacity: 0.8; }
+        nav a:hover { opacity: 1; }
+        
+        .hero { padding: 100px 0; text-align: center; }
+        .hero h1 { font-family: 'Fraunces', serif; font-size: 4rem; margin: 0; line-height: 1.1; }
+        .hero p { font-size: 1.2rem; max-width: 600px; margin: 20px auto; opacity: 0.8; }
+        
+        .store-section { padding: 80px 0; background: #f3e8d6; border-top: 1px solid rgba(0,0,0,0.05); }
+        .store-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 40px; }
+        .book-card { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: 0.3s; position: relative; }
+        .book-card:hover { transform: translateY(-10px); }
+        .book-badge { background: var(--tomato); color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 20px; display: inline-block; }
+        .book-title { font-family: 'Fraunces', serif; font-size: 1.8rem; margin: 0 0 15px; }
+        .book-price { font-size: 2.2rem; font-weight: 700; margin: 20px 0; }
+        .book-price span { font-size: 1.1rem; text-decoration: line-through; opacity: 0.4; font-weight: 400; margin-right: 10px; }
+        .btn-buy { background: var(--charcoal); color: white; padding: 16px 32px; border-radius: 50px; text-decoration: none; display: block; text-align: center; font-weight: 700; transition: 0.3s; }
+        .btn-buy:hover { background: var(--tomato); }
+        
+        .recipes-section { padding: 80px 0; }
+        .recipe-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 40px; }
+        .recipe-card { border: 1px solid rgba(0,0,0,0.1); padding: 20px; border-radius: 12px; }
+        
+        footer { background: var(--charcoal); color: var(--cream); padding: 60px 0; text-align: center; font-size: 14px; }
+    </style>
 </head>
 <body>
 
-<header class="nav">
-  <div class="wrap">
-    <div class="brand"><span class="dot"></span>Homemade Foods</div>
-    <nav class="links">
-      <a href="#inicio">Início</a>
-      <a href="#sobre">Sobre</a>
-      <a href="#receitas">Receitas</a>
-      <a href="#contato">Contato</a>
-    </nav>
-  </div>
+<header>
+    <div class="wrap">
+        <div class="brand">Homemade Foods</div>
+        <nav>
+            <a href="#loja">Loja</a>
+            <a href="#receitas">Receitas</a>
+            <a href="#sobre">Sobre</a>
+            <a href="#contato">Contato</a>
+        </nav>
+    </div>
 </header>
 
-<section class="hero" id="inicio">
-  <div class="wrap">
-    <div>
-      <span class="kicker">Homemade Foods · Feito em casa, do jeito certo</span>
-      <h1 class="hero-title">Comida de <em>verdade</em>, receita por receita.</h1>
-      <p class="lede">Receitas testadas, medidas e agora avaliadas por quem realmente cozinhou — com avaliações moderadas antes de irem ao ar.</p>
-      <div class="hero-actions">
-        <a href="#receitas" class="btn solid">Ver receitas</a>
-        <a href="#sobre" class="btn ghost">Conhecer a marca</a>
-      </div>
+<section class="hero">
+    <div class="wrap">
+        <span style="color: var(--tomato); font-weight: 700; text-transform: uppercase; letter-spacing: 2px; font-size: 12px;">Feito em casa, do jeito certo</span>
+        <h1>Comida de <i>verdade</i>,<br>receita por receita.</h1>
+        <p>Receitas testadas, medidas e agora organizadas em guias práticos para você nunca mais errar na cozinha.</p>
     </div>
-    <div class="hero-badge">
-      <span style="font-size:26px;">100% caseiro</span>
-      <span class="small">Homemade Foods · Est. Cozinha</span>
-    </div>
-  </div>
 </section>
 
-<div class="values gingham">
-  <div class="wrap">
-    <span class="value-item">Receitas testadas de verdade</span>
-    <span class="value-item">Ingredientes fáceis de achar</span>
-    <span class="value-item">Avaliações moderadas</span>
-    <span class="value-item">Atualizado toda semana</span>
-  </div>
-</div>
-
-<section class="about" id="sobre">
-  <div class="wrap">
-    <div>
-      <span class="section-label">Sobre a marca</span>
-      <h2 class="section-title">Por que Homemade Foods existe</h2>
+<section id="loja" class="store-section">
+    <div class="wrap">
+        <h2 style="font-family: 'Fraunces', serif; font-size: 2.5rem; text-align: center;">Nossos Livros de Receitas</h2>
+        <div class="store-grid">
+            <div class="book-card">
+                <span class="book-badge">Amostra Especial</span>
+                <h3 class="book-title">Mini Livro: As 10 Favoritas</h3>
+                <p>Uma seleção estratégica das receitas mais amadas da Homemade Foods para resultados rápidos.</p>
+                <div class="book-price"><span>R$ 27</span> R$ 17</div>
+                <a href="SEU_LINK_KIWIFY_MINI" class="btn-buy">Comprar Agora</a>
+            </div>
+            
+            <div class="book-card" style="border: 2px solid var(--mustard);">
+                <div style="position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: var(--mustard); color: var(--charcoal); padding: 4px 16px; border-radius: 20px; font-size: 11px; font-weight: 800;">MAIS VENDIDO</div>
+                <span class="book-badge" style="background: var(--charcoal);">Bíblia Culinária</span>
+                <h3 class="book-title">Sabores Inesquecíveis: 50 Receitas</h3>
+                <p>O guia definitivo com 50 receitas exclusivas divididas em 3 capítulos: Doces, Carnes e Massas.</p>
+                <div class="book-price"><span>R$ 97</span> R$ 47</div>
+                <a href="SEU_LINK_KIWIFY_COMPLETO" class="btn-buy" style="background: var(--mustard); color: var(--charcoal);">Garantir Minha Cópia</a>
+            </div>
+        </div>
+        <p style="text-align: center; margin-top: 40px; font-size: 14px; opacity: 0.6;">✓ Acesso imediato via E-mail | ✓ Pagamento Seguro | ✓ 7 Dias de Garantia</p>
     </div>
-    <div>
-      <p>Homemade Foods nasceu de uma ideia simples: comida boa não precisa de 30 ingredientes nem de equipamento de restaurante. Precisa de uma receita clara, escrita por alguém que já errou a mão no sal antes de acertar.</p>
-      <p>Cada receita passa por um teste real de cozinha antes de publicar. Quem faz em casa pode avaliar — as avaliações passam por moderação antes de aparecer, para manter a coleção confiável.</p>
-      <div class="stat-grid">
-        <div class="stat"><b id="statCount">–</b><span>receitas na coleção atual</span></div>
-        <div class="stat"><b>4</b><span>categorias organizadas</span></div>
-      </div>
-    </div>
-  </div>
 </section>
 
-<section class="recipes" id="receitas">
-  <div class="wrap">
-    <div class="recipes-head">
-      <div>
-        <span class="section-label">Coleção</span>
-        <h2 class="section-title">Receitas Homemade Foods</h2>
-      </div>
-      <div class="controls">
-        <div class="tabs-r" id="tabsR">
-          <button data-cat="todas" class="active">Todas</button>
-          <button data-cat="salgados">Salgados</button>
-          <button data-cat="doces">Doces</button>
-          <button data-cat="caldos">Caldos</button>
-          <button data-cat="bebidas">Bebidas</button>
+<section id="receitas" class="recipes-section">
+    <div class="wrap">
+        <h2 style="font-family: 'Fraunces', serif; font-size: 2rem;">Receitas Gratuitas</h2>
+        <div class="recipe-grid">
+            <div class="recipe-card">
+                <h3>Pão de Queijo</h3>
+                <p>A bolinha que some da mesa antes de esfriar.</p>
+                <a href="#loja" style="color: var(--tomato); font-weight: 700; font-size: 13px;">VER RECEITA COMPLETA →</a>
+            </div>
+            <div class="recipe-card">
+                <h3>Bolo de Fubá</h3>
+                <p>Casca fininha por cima, camada cremosa no meio.</p>
+                <a href="#loja" style="color: var(--tomato); font-weight: 700; font-size: 13px;">VER RECEITA COMPLETA →</a>
+            </div>
+            <div class="recipe-card">
+                <h3>Brigadeiro</h3>
+                <p>O doce que aparece em toda festa e some primeiro.</p>
+                <a href="#loja" style="color: var(--tomato); font-weight: 700; font-size: 13px;">VER RECEITA COMPLETA →</a>
+            </div>
         </div>
-        <input class="search-r" id="searchR" type="text" placeholder="Buscar receita ou ingrediente...">
-      </div>
     </div>
-    <div class="grid-r" id="gridR"><div class="empty-r">Carregando receitas do banco de dados...</div></div>
-  </div>
-</section>
-
-<section class="contact" id="contato">
-  <div class="wrap">
-    <!-- Formulário de contato -->
-    <div style="margin-bottom:60px;">
-      <span class="section-label">Fale com a gente</span>
-      <h2 class="section-title">Envie sua mensagem</h2>
-      <p style="font-size:15.5px; color:#4b4842; line-height:1.6; margin:0 0 24px;">Tem uma sugestão de receita, encontrou um erro ou quer pedir a remoção dos seus dados? Manda uma mensagem que a gente responde.</p>
-      <form id="contactForm" style="display:flex; flex-direction:column; gap:14px; max-width:540px;">
-        <div class="field"><label>Nome</label><input type="text" id="ctName" placeholder="Seu nome" required></div>
-        <div class="field"><label>E-mail</label><input type="email" id="ctEmail" placeholder="Seu e-mail" required></div>
-        <div class="field"><label>Assunto</label>
-          <select id="ctSubject" required>
-            <option value="">Selecione...</option>
-            <option value="sugestao">Sugestão de receita</option>
-            <option value="erro">Erro ou problema</option>
-            <option value="privacidade">Privacidade / Remoção de dados</option>
-            <option value="outro">Outro</option>
-          </select>
-        </div>
-        <div class="field"><label>Mensagem</label><textarea id="ctMessage" placeholder="Como podemos ajudar?" required></textarea></div>
-        <div style="display:none;" aria-hidden="true">
-          <label>Deixe em branco: <input type="text" id="ctWebsite" name="website" tabindex="-1" autocomplete="off"></label>
-        </div>
-        <button type="submit" style="background:var(--tomato); color:var(--cream); font-weight:600; font-size:14.5px; padding:13px 24px; border:none; border-radius:2px; cursor:pointer; align-self:flex-start;" id="ctSubmit">Enviar mensagem</button>
-        <span class="form-note" id="ctNote"></span>
-      </form>
-    </div>
-    <!-- Newsletter -->
-    <div class="contact-box">
-      <div>
-        <h2>Receba novas receitas antes de todo mundo</h2>
-        <p>Uma vez por semana, direto na sua caixa de entrada. Sem spam.</p>
-      </div>
-      <form class="signup" id="newsletterForm">
-        <input type="text" id="nlName" placeholder="Seu nome" required>
-        <input type="email" id="nlEmail" placeholder="Seu e-mail" required>
-        <div style="display:none;" aria-hidden="true">
-          <label>Deixe em branco: <input type="text" id="nlWebsite" name="website" tabindex="-1" autocomplete="off"></label>
-        </div>
-        <button type="submit" id="nlSubmit">Quero receber</button>
-        <span class="form-note" id="nlNote">Seus dados ficam salvos no nosso banco (Supabase) — nada de spam.</span>
-      </form>
-    </div>
-  </div>
-</section>
-
-<section class="about" id="privacidade" style="padding:90px 0; border-top:1px solid var(--line);">
-  <div class="wrap">
-    <span class="section-label">Política de Privacidade</span>
-    <h2 class="section-title">Como usamos seus dados</h2>
-    <div style="max-width:720px;">
-      <p style="font-size:14px; color:#6a655c; margin:0 0 28px;">Última atualização: Julho de 2026</p>
-
-      <h3 style="font-family:'Fraunces',serif; font-size:20px; font-weight:600; margin:0 0 10px; color:var(--charcoal);">1. Dados que coletamos</h3>
-      <p style="font-size:15.5px; line-height:1.7; color:#3a3732; margin:0 0 20px;">Ao criar uma conta para avaliar receitas, inscrever-se na newsletter ou enviar uma mensagem de contato, armazenamos apenas o <strong>nome</strong> e o <strong>e-mail</strong> informados por você. Nenhum dado de pagamento, localização ou navegação é coletado.</p>
-
-      <h3 style="font-family:'Fraunces',serif; font-size:20px; font-weight:600; margin:0 0 10px; color:var(--charcoal);">2. Para que usamos seus dados</h3>
-      <p style="font-size:15.5px; line-height:1.7; color:#3a3732; margin:0 0 20px;">O e-mail é usado exclusivamente para duas finalidades: (a) dar acesso ao sistema de avaliações moderadas de receitas e (b) enviar a newsletter semanal com novidades de receitas. O formulário de contato é usado apenas para responder sua mensagem.</p>
-
-      <h3 style="font-family:'Fraunces',serif; font-size:20px; font-weight:600; margin:0 0 10px; color:var(--charcoal);">3. Compartilhamento de dados</h3>
-      <p style="font-size:15.5px; line-height:1.7; color:#3a3732; margin:0 0 20px;"><strong>Não vendemos, alugamos nem compartilhamos seus dados pessoais com terceiros.</strong> A infraestrutura de banco de dados utilizada é o Supabase, que armazena as informações de forma segura em servidores protegidos.</p>
-
-      <h3 style="font-family:'Fraunces',serif; font-size:20px; font-weight:600; margin:0 0 10px; color:var(--charcoal);">4. Cookies e rastreamento</h3>
-      <p style="font-size:15.5px; line-height:1.7; color:#3a3732; margin:0 0 20px;">Este site não utiliza cookies de rastreamento, pixels de publicidade ou ferramentas de analytics de terceiros. A única sessão mantida é a autenticação do Supabase, necessária para o sistema de avaliações.</p>
-
-      <h3 style="font-family:'Fraunces',serif; font-size:20px; font-weight:600; margin:0 0 10px; color:var(--charcoal);">5. Seus direitos (LGPD)</h3>
-      <p style="font-size:15.5px; line-height:1.7; color:#3a3732; margin:0 0 20px;">Em conformidade com a Lei Geral de Proteção de Dados (LGPD), você tem o direito de: solicitar acesso aos seus dados, pedir correção de informações incorretas, solicitar a exclusão dos seus dados e revogar o consentimento a qualquer momento. Para exercer qualquer um desses direitos, basta enviar uma mensagem pelo <a href="#contato" style="color:var(--tomato); font-weight:600;">formulário de contato</a>.</p>
-
-      <h3 style="font-family:'Fraunces',serif; font-size:20px; font-weight:600; margin:0 0 10px; color:var(--charcoal);">6. Segurança</h3>
-      <p style="font-size:15.5px; line-height:1.7; color:#3a3732; margin:0 0 20px;">Utilizamos conexão criptografada (HTTPS) em todo o site. As avaliações passam por moderação antes de serem publicadas, garantindo que nenhum conteúdo impróprio ou ofensivo apareça publicamente.</p>
-
-      <h3 style="font-family:'Fraunces',serif; font-size:20px; font-weight:600; margin:0 0 10px; color:var(--charcoal);">7. Alterações nesta política</h3>
-      <p style="font-size:15.5px; line-height:1.7; color:#3a3732; margin:0;">Podemos atualizar esta política ocasionalmente para refletir mudanças no site ou na legislação. Quando isso ocorrer, publicaremos a versão atualizada nesta mesma página com a data de modificação indicada no topo.</p>
-    </div>
-  </div>
 </section>
 
 <footer>
-  <div class="wrap">
-    <div class="brand">Homemade Foods</div>
-    <div class="foot-links"><a href="#inicio">Início</a><a href="#sobre">Sobre</a><a href="#receitas">Receitas</a><a href="#contato">Contato</a><a href="#privacidade">Privacidade</a></div>
-  </div>
+    <div class="wrap">
+        <p>Homemade Foods © 2026. Todos os direitos reservados.</p>
+        <p style="opacity: 0.5; margin-top: 10px;">Feito com amor por quem cozinha de verdade.</p>
+    </div>
 </footer>
 
-<div class="overlay hidden" id="overlay"><div class="sheet" id="sheet"></div></div>
-<div class="overlay hidden" id="loginOverlay"><div class="sheet narrow" id="loginSheet"></div></div>
-<div class="overlay hidden" id="adminOverlay"><div class="sheet" id="adminSheet" style="max-width:780px;"></div></div>
-
-<script>
-/* ---------- Conexão com o Supabase (backend real) ---------- */
-const SUPABASE_URL = 'https://gjznuniyuxayjfmetakm.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_9pjSCtpMhdT9-aTf8ZnVmQ_ckhXOrWX';
-const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-const ICONS = {
-  salgados: `<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 40 L24 8 L42 40 Z"/><path d="M14 40 L34 40" stroke-dasharray="3 3"/></svg>`,
-  doces: `<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M10 22 a14 12 0 0 1 28 0 Z"/><path d="M10 22 L8 40 L40 40 L38 22"/><path d="M24 8 v6" stroke-linecap="round"/></svg>`,
-  caldos: `<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M8 22 h32 l-3 14 a4 4 0 0 1-4 3 H15 a4 4 0 0 1-4-3 Z"/><path d="M17 14 q2-4 0-8 M24 14 q2-4 0-8 M31 14 q2-4 0-8" stroke-linecap="round"/></svg>`,
-  bebidas: `<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 8 h20 l-4 30 a4 4 0 0 1-4 4 h-4 a4 4 0 0 1-4-4 Z"/><path d="M15 16 h18"/></svg>`
-};
-const CAT_LABELS = {salgados:'Salgados', doces:'Doces', caldos:'Caldos', bebidas:'Bebidas'};
-
-let recipes = [];
-let session = null;
-let isAdmin = false;
-
-/* ---------- Dados: receitas e avaliações do Supabase ---------- */
-async function loadRecipes(){
-  try {
-    const { data, error } = await sb.from('recipes').select('*').order('created_at');
-    if(error){ 
-      console.warn('Supabase error loading recipes:', error.message);
-      document.getElementById('gridR').innerHTML = '<div class="empty-r">Erro ao carregar receitas do banco. Tente recarregar a página.</div>'; 
-      return; 
-    }
-    recipes = data || [];
-  } catch(e){
-    console.error('Exception loading recipes:', e);
-    document.getElementById('gridR').innerHTML = '<div class="empty-r">Erro ao carregar receitas. Tente recarregar a página.</div>';
-  }
-}
-async function loadApprovedReviews(recipeId){
-  const { data, error } = await sb.from('reviews').select('*').eq('recipe_id', recipeId).eq('approved', true).order('created_at', {ascending:false});
-  return error ? [] : data;
-}
-async function loadAllReviews(){
-  const { data, error } = await sb.from('reviews').select('*, recipes(nome)').order('created_at', {ascending:false});
-  return error ? [] : data;
-}
-
-/* ---------- Vitrine pública ---------- */
-const gridR = document.getElementById('gridR');
-const searchR = document.getElementById('searchR');
-const tabsR = document.querySelectorAll('#tabsR button');
-let activeCat = 'todas';
-let query = '';
-
-function renderGrid(){
-  const statEl = document.getElementById('statCount');
-  if(statEl) statEl.textContent = recipes.length > 0 ? recipes.length : (recipes.length === 0 ? '0' : '–');
-  const filtered = recipes.filter(r=>{
-    const catOk = activeCat==='todas' || r.cat===activeCat;
-    const q = query.trim().toLowerCase();
-    const qOk = !q || r.nome.toLowerCase().includes(q) || (r.ingredientes||[]).some(i=>i.toLowerCase().includes(q));
-    return catOk && qOk;
-  });
-  gridR.innerHTML = '';
-  if(filtered.length===0){ gridR.innerHTML = '<div class="empty-r">Nenhuma receita encontrada.</div>'; return; }
-  filtered.forEach(r=>{
-    const card = document.createElement('div');
-    card.className = 'card-r';
-    card.innerHTML = `
-      ${r.photo_url
-        ? `<img src="${r.photo_url}" alt="${r.nome}" style="width:100%; height:150px; object-fit:cover; border-radius:2px; margin-bottom:12px;" loading="lazy">`
-        : `<div class="card-icon" style="color:var(--mustard);">${ICONS[r.cat]||''}</div>`}
-      <div class="tag">${r.tag_label||''}</div>
-      <h3>${r.nome}</h3>
-      <p>${r.descricao||''}</p>
-      <div class="stars-mini" data-stars-for="${r.id}">carregando avaliações…</div>
-      <div class="meta-r"><span>⏱ ${r.tempo||''}</span><span>🍽 ${r.porcoes||''}</span><span>${r.dificuldade||''}</span></div>
-    `;
-    card.addEventListener('click', ()=>openRecipe(r));
-    gridR.appendChild(card);
-    loadApprovedReviews(r.id).then(list=>{
-      const el = card.querySelector(`[data-stars-for="${r.id}"]`);
-      if(list.length===0){ el.textContent = 'Sem avaliações ainda'; return; }
-      const avg = list.reduce((s,x)=>s+x.rating,0)/list.length;
-      el.textContent = '★'.repeat(Math.round(avg)) + '☆'.repeat(5-Math.round(avg)) + `  (${list.length})`;
-    });
-  });
-}
-tabsR.forEach(btn=>{
-  btn.addEventListener('click', ()=>{
-    tabsR.forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-    activeCat = btn.dataset.cat;
-    renderGrid();
-  });
-});
-searchR.addEventListener('input', (e)=>{ query = e.target.value; renderGrid(); });
-
-/* ---------- Modal de receita + avaliações (com login do visitante) ---------- */
-const overlay = document.getElementById('overlay');
-const sheet = document.getElementById('sheet');
-
-async function openRecipe(r){
-  overlay.classList.remove('hidden');
-  const reviews = await loadApprovedReviews(r.id);
-  const avg = reviews.length ? reviews.reduce((s,x)=>s+x.rating,0)/reviews.length : 0;
-  sheet.innerHTML = `
-    <button class="close" id="closeBtn">FECHAR ✕</button>
-    ${r.photo_url ? `<img src="${r.photo_url}" alt="${r.nome}" style="width:100%; max-height:280px; object-fit:cover; border-radius:4px; margin-bottom:14px;">` : ''}
-    <div class="tag">${r.tag_label||''}</div>
-    <h2>${r.nome}</h2>
-    <div class="meta-row"><span>⏱ ${r.tempo||''}</span><span>🍽 ${r.porcoes||''}</span><span>${r.dificuldade||''}</span></div>
-    <div class="avg-stars">${reviews.length ? '★'.repeat(Math.round(avg))+'☆'.repeat(5-Math.round(avg))+` — ${avg.toFixed(1)} (${reviews.length} avaliações)` : 'Ainda sem avaliações'}</div>
-    <h4>Ingredientes</h4>
-    <ul>${(r.ingredientes||[]).map(i=>`<li>${i}</li>`).join('')}</ul>
-    <h4>Modo de preparo</h4>
-    <ol>${(r.modo||[]).map(m=>`<li>${m}</li>`).join('')}</ol>
-    <div class="note">${r.nota||''}</div>
-    <h4>Avaliações e comentários</h4>
-    <div id="reviewsList"></div>
-    <div id="reviewArea"></div>
-  `;
-  document.getElementById('reviewsList').innerHTML = reviews.length===0
-    ? '<p style="font-size:13.5px;color:#6a655c;">Seja a primeira pessoa a avaliar.</p>'
-    : reviews.map(rv=>`
-      <div class="review-item">
-        <b>${rv.author_name || (rv.author_email ? rv.author_email.split('@')[0] : 'Anônimo')}</b>
-        <span class="review-stars">${'★'.repeat(rv.rating)}${'☆'.repeat(5-rv.rating)}</span>
-        <span style="color:#8a8478; font-size:12px;"> · ${new Date(rv.created_at).toLocaleDateString('pt-BR')}</span>
-        <div>${rv.comment||''}</div>
-      </div>`).join('');
-  renderReviewArea(r.id);
-  document.getElementById('closeBtn').addEventListener('click', closeRecipe);
-}
-
-function renderReviewArea(recipeId){
-  const area = document.getElementById('reviewArea');
-  area.innerHTML = `
-    <form class="review-form" id="reviewForm">
-      <input type="text" id="revNome" placeholder="Seu nome" required>
-      <select id="revEstrelas">
-        <option value="5">★★★★★ Excelente</option>
-        <option value="4">★★★★☆ Muito boa</option>
-        <option value="3">★★★☆☆ Boa</option>
-        <option value="2">★★☆☆☆ Regular</option>
-        <option value="1">★☆☆☆☆ Não gostei</option>
-      </select>
-      <textarea id="revTexto" placeholder="Como foi fazer essa receita?" required></textarea>
-      <div style="display:none;" aria-hidden="true">
-        <label>Deixe em branco: <input type="text" id="revWebsite" name="website" tabindex="-1" autocomplete="off"></label>
-      </div>
-      <button type="submit">Enviar avaliação</button>
-      <span class="form-note">Sua avaliação passa por moderação antes de aparecer publicamente.</span>
-    </form>
-    <div id="revMsg"></div>
-  `;
-  document.getElementById('reviewForm').addEventListener('submit', async (e)=>{
-    e.preventDefault();
-    const nome = document.getElementById('revNome').value.trim();
-    const rating = parseInt(document.getElementById('revEstrelas').value, 10);
-    const comment = document.getElementById('revTexto').value.trim();
-    const honeypot = document.getElementById('revWebsite').value.trim();
-    if(honeypot){
-      document.getElementById('revMsg').innerHTML = '<span class="msg-ok">Avaliação enviada! Ela aparece assim que for aprovada.</span>';
-      return;
-    }
-    if(!nome || !comment) return;
-    const { error } = await sb.from('reviews').insert({
-      recipe_id: recipeId, author_name: nome, rating, comment, approved: false
-    });
-    const msg = document.getElementById('revMsg');
-    msg.innerHTML = error
-      ? `<span class="msg-err">Não foi possível enviar: ${error.message}</span>`
-      : `<span class="msg-ok">Avaliação enviada! Ela aparece assim que for aprovada.</span>`;
-  });
-}
-
-function closeRecipe(){ overlay.classList.add('hidden'); }
-overlay.addEventListener('click', (e)=>{ if(e.target===overlay) closeRecipe(); });
-document.addEventListener('keydown', (e)=>{ if(e.key==='Escape'){ closeRecipe(); closeLogin(); closeAdmin(); } });
-
-/* ---------- Login administrativo (Supabase Auth de verdade) ---------- */
-const loginOverlay = document.getElementById('loginOverlay');
-const loginSheet = document.getElementById('loginSheet');
-if(location.hash === '#admin'){ openLogin(); history.replaceState(null, '', location.pathname); }
-window.addEventListener('hashchange', ()=>{ if(location.hash === '#admin'){ openLogin(); history.replaceState(null, '', location.pathname); } });
-
-function openLogin(){
-  loginSheet.innerHTML = `
-    <button class="close" id="closeLoginBtn">FECHAR ✕</button>
-    <div class="tag">Área restrita</div>
-    <h2 style="font-size:26px;">Login administrativo</h2>
-    <p style="font-size:13.5px; color:#6a655c; margin-top:-6px;">Use a conta de admin já cadastrada no Supabase deste projeto.</p>
-    <div class="field"><label>E-mail</label><input type="email" id="adminEmail"></div>
-    <div class="field"><label>Senha</label><input type="password" id="adminPw"></div>
-    <div class="error-msg hidden" id="loginError">Não foi possível entrar.</div>
-    <button class="btn solid" id="loginSubmit" style="width:100%; text-align:center;">Entrar</button>
-  `;
-  loginOverlay.classList.remove('hidden');
-  document.getElementById('closeLoginBtn').addEventListener('click', closeLogin);
-  document.getElementById('loginSubmit').addEventListener('click', async ()=>{
-    const email = document.getElementById('adminEmail').value.trim();
-    const password = document.getElementById('adminPw').value;
-    const { data, error } = await sb.auth.signInWithPassword({ email, password });
-    const errEl = document.getElementById('loginError');
-    if(error){ errEl.textContent = error.message; errEl.classList.remove('hidden'); return; }
-    const { data: profile, error: profErr } = await sb.from('profiles').select('is_admin').eq('id', data.user.id).single();
-    if(profErr || !profile || !profile.is_admin){
-      errEl.textContent = 'Essa conta não tem permissão de administrador.';
-      errEl.classList.remove('hidden');
-      await sb.auth.signOut();
-      return;
-    }
-    session = data.session;
-    isAdmin = true;
-    closeLogin();
-    openAdmin();
-  });
-}
-function closeLogin(){ loginOverlay.classList.add('hidden'); }
-loginOverlay.addEventListener('click', (e)=>{ if(e.target===loginOverlay) closeLogin(); });
-
-/* ---------- Painel admin: receitas (CRUD) + moderação de avaliações ---------- */
-const adminOverlay = document.getElementById('adminOverlay');
-const adminSheet = document.getElementById('adminSheet');
-let adminTab = 'receitas';
-
-function openAdmin(){ adminTab='receitas'; renderAdminShell(); adminOverlay.classList.remove('hidden'); }
-function closeAdmin(){ adminOverlay.classList.add('hidden'); }
-adminOverlay.addEventListener('click', (e)=>{ if(e.target===adminOverlay) closeAdmin(); });
-
-function renderAdminShell(){
-  adminSheet.innerHTML = `
-    <button class="close" id="closeAdminBtn">FECHAR ✕</button>
-    <div class="admin-top">
-      <h2 style="font-family:'Fraunces',serif; font-size:26px; margin:0;">Painel administrativo</h2>
-      <button class="btn ghost" id="logoutBtn" style="padding:8px 14px; font-size:13px;">Sair</button>
-    </div>
-    <div class="admin-tabs">
-      <button class="${adminTab==='receitas'?'active':''}" id="goRecipes">Receitas</button>
-      <button class="${adminTab==='avaliacoes'?'active':''}" id="goReviews">Moderar avaliações</button>
-    </div>
-    <div id="adminBody"></div>
-  `;
-  document.getElementById('closeAdminBtn').addEventListener('click', closeAdmin);
-  document.getElementById('logoutBtn').addEventListener('click', async ()=>{ await sb.auth.signOut(); session=null; isAdmin=false; closeAdmin(); });
-  document.getElementById('goRecipes').addEventListener('click', ()=>{ adminTab='receitas'; renderAdminShell(); });
-  document.getElementById('goReviews').addEventListener('click', ()=>{ adminTab='avaliacoes'; renderAdminShell(); });
-  if(adminTab==='receitas') renderAdminRecipes(); else renderAdminReviews();
-}
-
-function renderAdminRecipes(){
-  const body = document.getElementById('adminBody');
-  body.innerHTML = `<div class="badge-note">Alterações aqui gravam direto no banco de dados Supabase — visíveis para todos os visitantes.</div>
-    <button class="btn solid" id="newRecipeBtn" style="margin-bottom:14px;">+ Nova receita</button>
-    <div id="adminRows"></div>`;
-  const rows = document.getElementById('adminRows');
-  recipes.forEach(r=>{
-    const row = document.createElement('div');
-    row.className = 'admin-row';
-    row.innerHTML = `
-      <div class="info"><b>${r.nome}</b><span>${CAT_LABELS[r.cat]||r.cat} · ${r.tempo||''} · ${r.dificuldade||''}</span></div>
-      <div class="admin-actions"><button data-edit="${r.id}">Editar</button><button class="del" data-del="${r.id}">Excluir</button></div>
-    `;
-    rows.appendChild(row);
-  });
-  document.getElementById('newRecipeBtn').addEventListener('click', ()=>renderRecipeForm(null));
-  rows.querySelectorAll('[data-edit]').forEach(b=>b.addEventListener('click', ()=>renderRecipeForm(recipes.find(r=>r.id===b.dataset.edit))));
-  rows.querySelectorAll('[data-del]').forEach(b=>b.addEventListener('click', async ()=>{
-    if(confirm('Excluir esta receita do banco de dados? Não pode ser desfeito.')){
-      const { error } = await sb.from('recipes').delete().eq('id', b.dataset.del);
-      if(error){ alert('Erro ao excluir: '+error.message); return; }
-      await loadRecipes(); renderAdminRecipes(); renderGrid();
-    }
-  }));
-}
-
-function renderRecipeForm(existing){
-  const isNew = !existing;
-  const body = document.getElementById('adminBody');
-  body.innerHTML = `
-    <h3 style="font-family:'Fraunces',serif; font-size:22px; margin:0 0 16px;">${isNew?'Nova receita':'Editar receita'}</h3>
-    <div class="field"><label>Nome</label><input id="fNome" value="${existing?existing.nome:''}"></div>
-    <div class="field"><label>Foto real do prato</label>
-      <input type="file" id="fFoto" accept="image/*">
-      ${existing?.photo_url ? `<img src="${existing.photo_url}" alt="" style="width:120px; height:90px; object-fit:cover; border-radius:2px; margin-top:6px;">` : ''}
-      <span class="form-note" id="fotoStatus"></span>
-    </div>
-    <div class="field"><label>Categoria</label>
-      <select id="fCat">
-        <option value="salgados" ${existing?.cat==='salgados'?'selected':''}>Salgados</option>
-        <option value="doces" ${existing?.cat==='doces'?'selected':''}>Doces</option>
-        <option value="caldos" ${existing?.cat==='caldos'?'selected':''}>Caldos</option>
-        <option value="bebidas" ${existing?.cat==='bebidas'?'selected':''}>Bebidas</option>
-      </select>
-    </div>
-    <div class="field"><label>Etiqueta (ex: Salgado · Minas)</label><input id="fTag" value="${existing?existing.tag_label||'':''}"></div>
-    <div class="field"><label>Descrição curta</label><input id="fDesc" value="${existing?existing.descricao||'':''}"></div>
-    <div class="field"><label>Tempo</label><input id="fTempo" value="${existing?existing.tempo||'':''}"></div>
-    <div class="field"><label>Porções</label><input id="fPorcoes" value="${existing?existing.porcoes||'':''}"></div>
-    <div class="field"><label>Dificuldade</label><input id="fDificuldade" value="${existing?existing.dificuldade||'Fácil':'Fácil'}"></div>
-    <div class="field"><label>Ingredientes (um por linha)</label><textarea id="fIngredientes">${existing?(existing.ingredientes||[]).join('\n'):''}</textarea></div>
-    <div class="field"><label>Modo de preparo (um passo por linha)</label><textarea id="fModo">${existing?(existing.modo||[]).join('\n'):''}</textarea></div>
-    <div class="field"><label>Nota/dica</label><textarea id="fNota">${existing?existing.nota||'':''}</textarea></div>
-    <div id="formMsg"></div>
-    <button class="btn solid" id="saveRecipeBtn" style="width:100%; text-align:center;">${isNew?'Criar receita':'Salvar alterações'}</button>
-    <button class="btn ghost" id="cancelFormBtn" style="width:100%; text-align:center; margin-top:8px;">Cancelar</button>
-  `;
-  document.getElementById('cancelFormBtn').addEventListener('click', renderAdminRecipes);
-  document.getElementById('saveRecipeBtn').addEventListener('click', async ()=>{
-    const nome = document.getElementById('fNome').value.trim();
-    if(!nome) return;
-    const msgEl = document.getElementById('formMsg');
-    const fotoInput = document.getElementById('fFoto');
-    const fotoStatus = document.getElementById('fotoStatus');
-    let photo_url = existing?.photo_url || null;
-    if(fotoInput.files && fotoInput.files[0]){
-      const file = fotoInput.files[0];
-      fotoStatus.textContent = 'Enviando foto…';
-      const path = `${(existing?.id) || nome.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-')}-${Date.now()}.${file.name.split('.').pop()}`;
-      const { error: upErr } = await sb.storage.from('recipe-photos').upload(path, file, { upsert: true });
-      if(upErr){ fotoStatus.textContent = 'Erro ao enviar foto: '+upErr.message; return; }
-      const { data: pub } = sb.storage.from('recipe-photos').getPublicUrl(path);
-      photo_url = pub.publicUrl;
-      fotoStatus.textContent = 'Foto enviada ✓';
-    }
-    const payload = {
-      cat: document.getElementById('fCat').value,
-      tag_label: document.getElementById('fTag').value.trim(),
-      nome,
-      descricao: document.getElementById('fDesc').value.trim(),
-      tempo: document.getElementById('fTempo').value.trim(),
-      porcoes: document.getElementById('fPorcoes').value.trim(),
-      dificuldade: document.getElementById('fDificuldade').value.trim(),
-      ingredientes: document.getElementById('fIngredientes').value.split('\n').map(s=>s.trim()).filter(Boolean),
-      modo: document.getElementById('fModo').value.split('\n').map(s=>s.trim()).filter(Boolean),
-      nota: document.getElementById('fNota').value.trim(),
-      photo_url
-    };
-    let error;
-    if(existing){
-      ({ error } = await sb.from('recipes').update(payload).eq('id', existing.id));
-    } else {
-      const slug = nome.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'') + '-' + Date.now().toString().slice(-4);
-      ({ error } = await sb.from('recipes').insert({ id: slug, ...payload }));
-    }
-    if(error){ msgEl.innerHTML = `<span class="msg-err">Erro ao salvar: ${error.message}</span>`; return; }
-    await loadRecipes();
-    renderAdminRecipes();
-    renderGrid();
-  });
-}
-
-async function renderAdminReviews(){
-  const body = document.getElementById('adminBody');
-  body.innerHTML = '<div class="badge-note">Carregando avaliações…</div>';
-  const all = await loadAllReviews();
-  if(all.length===0){ body.innerHTML = '<div class="badge-note">Nenhuma avaliação enviada ainda.</div>'; return; }
-  body.innerHTML = `<div class="badge-note">Aprove para publicar, ou exclua avaliações inadequadas.</div><div id="revRows"></div>`;
-  const rows = document.getElementById('revRows');
-  all.forEach(rv=>{
-    const row = document.createElement('div');
-    row.className = 'admin-row';
-    row.innerHTML = `
-      <div class="info">
-        <b>${rv.recipes?.nome || rv.recipe_id} — ${'★'.repeat(rv.rating)}${'☆'.repeat(5-rv.rating)}</b>
-        <span>${rv.author_name || rv.author_email || 'anônimo'} · ${rv.approved ? 'Aprovada' : 'Pendente'} · ${new Date(rv.created_at).toLocaleDateString('pt-BR')}</span>
-        <div style="font-size:13.5px; margin-top:4px;">${rv.comment||''}</div>
-      </div>
-      <div class="admin-actions">
-        ${rv.approved ? '' : `<button class="ok" data-approve="${rv.id}">Aprovar</button>`}
-        <button class="del" data-delrev="${rv.id}">Excluir</button>
-      </div>
-    `;
-    rows.appendChild(row);
-  });
-  rows.querySelectorAll('[data-approve]').forEach(b=>b.addEventListener('click', async ()=>{
-    await sb.from('reviews').update({approved:true}).eq('id', b.dataset.approve);
-    renderAdminReviews();
-  }));
-  rows.querySelectorAll('[data-delrev]').forEach(b=>b.addEventListener('click', async ()=>{
-    if(confirm('Excluir esta avaliação?')){ await sb.from('reviews').delete().eq('id', b.dataset.delrev); renderAdminReviews(); }
-  }));
-}
-
-/* ---------- Newsletter (grava de verdade na tabela newsletter_subscribers) ---------- */
-document.getElementById('newsletterForm').addEventListener('submit', async (e)=>{
-  e.preventDefault();
-  const nlSubmit = document.getElementById('nlSubmit');
-  const nlNote = document.getElementById('nlNote');
-  nlSubmit.disabled = true;
-  const name = document.getElementById('nlName').value.trim();
-  const email = document.getElementById('nlEmail').value.trim();
-  const honeypot = document.getElementById('nlWebsite').value.trim();
-  if(honeypot){
-    nlSubmit.textContent = 'Inscrito ✓';
-    nlNote.textContent = 'Recebido! Você já está na nossa lista.';
-    return;
-  }
-  const { error } = await sb.from('newsletter_subscribers').insert({ name, email });
-  if(error){
-    nlNote.textContent = 'Não foi possível salvar agora. Tente novamente em instantes.';
-    nlSubmit.disabled = false;
-  } else {
-    nlSubmit.textContent = 'Inscrito ✓';
-    nlNote.textContent = 'Recebido! Você já está na nossa lista.';
-  }
-});
-
-/* ---------- Formulário de contato ---------- */
-document.getElementById('contactForm').addEventListener('submit', async (e)=>{
-  e.preventDefault();
-  const ctSubmit = document.getElementById('ctSubmit');
-  const ctNote = document.getElementById('ctNote');
-  ctSubmit.disabled = true;
-  const honeypot = document.getElementById('ctWebsite').value.trim();
-  if(honeypot){
-    ctNote.innerHTML = '<span class="msg-ok">Mensagem enviada com sucesso!</span>';
-    return;
-  }
-  const name = document.getElementById('ctName').value.trim();
-  const email = document.getElementById('ctEmail').value.trim();
-  const subject = document.getElementById('ctSubject').value;
-  const message = document.getElementById('ctMessage').value.trim();
-  if(!name || !email || !subject || !message) return;
-  
-  const { error } = await sb.from('contact_messages').insert({ 
-    name,
-    email,
-    subject,
-    message
-  });
-  
-  if(error){
-    ctNote.innerHTML = '<span class="msg-err">Não foi possível enviar agora. Tente novamente em instantes.</span>';
-    ctSubmit.disabled = false;
-  } else {
-    ctNote.innerHTML = '<span class="msg-ok">Mensagem enviada! A gente responde em até 48h.</span>';
-    e.target.reset();
-  }
-});
-
-/* ---------- Inicialização ---------- */
-(async function init(){
-  // Carrega receitas imediatamente, sem esperar auth
-  await loadRecipes();
-  renderGrid();
-  
-  // Tenta recuperar sessão em paralelo (com timeout para não travar)
-  try {
-    const timeout = new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 8000));
-    const sessionPromise = sb.auth.getSession();
-    const { data } = await Promise.race([sessionPromise, timeout]);
-    session = data.session;
-  } catch(e){
-    // Sessão não disponível — ok, o site funciona sem login
-    console.warn('Sessão não recuperada:', e.message);
-  }
-})();
-</script>
 </body>
-</html>
+      </html>
