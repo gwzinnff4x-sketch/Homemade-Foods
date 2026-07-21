@@ -14,34 +14,39 @@
             --sage: #6E7F5C;
         }
         * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
         body { margin: 0; background: var(--cream); color: var(--charcoal); font-family: 'Inter', sans-serif; line-height: 1.6; }
         .wrap { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
         header { background: var(--charcoal); color: var(--cream); padding: 20px 0; position: sticky; top: 0; z-index: 100; }
         header .wrap { display: flex; justify-content: space-between; align-items: center; }
         .brand { font-family: 'Fraunces', serif; font-size: 24px; font-weight: 700; }
         nav a { color: var(--cream); text-decoration: none; margin-left: 20px; font-size: 14px; opacity: 0.8; }
-        nav a:hover { opacity: 1; }
         
         .hero { padding: 100px 0; text-align: center; }
         .hero h1 { font-family: 'Fraunces', serif; font-size: 4rem; margin: 0; line-height: 1.1; }
-        .hero p { font-size: 1.2rem; max-width: 600px; margin: 20px auto; opacity: 0.8; }
         
         .store-section { padding: 80px 0; background: #f3e8d6; border-top: 1px solid rgba(0,0,0,0.05); }
         .store-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 40px; }
         .book-card { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: 0.3s; position: relative; }
-        .book-card:hover { transform: translateY(-10px); }
         .book-badge { background: var(--tomato); color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 20px; display: inline-block; }
-        .book-title { font-family: 'Fraunces', serif; font-size: 1.8rem; margin: 0 0 15px; }
         .book-price { font-size: 2.2rem; font-weight: 700; margin: 20px 0; }
-        .book-price span { font-size: 1.1rem; text-decoration: line-through; opacity: 0.4; font-weight: 400; margin-right: 10px; }
-        .btn-buy { background: var(--charcoal); color: white; padding: 16px 32px; border-radius: 50px; text-decoration: none; display: block; text-align: center; font-weight: 700; transition: 0.3s; }
-        .btn-buy:hover { background: var(--tomato); }
+        .btn-buy { background: var(--charcoal); color: white; padding: 16px 32px; border-radius: 50px; text-decoration: none; display: block; text-align: center; font-weight: 700; }
         
         .recipes-section { padding: 80px 0; }
         .recipe-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 40px; }
-        .recipe-card { border: 1px solid rgba(0,0,0,0.1); padding: 20px; border-radius: 12px; }
+        .recipe-card { border: 1px solid rgba(0,0,0,0.1); padding: 30px; border-radius: 12px; background: white; }
+        .recipe-content { display: none; margin-top: 20px; padding-top: 20px; border-top: 1px dashed #ccc; }
+        .recipe-content.active { display: block; }
         
-        footer { background: var(--charcoal); color: var(--cream); padding: 60px 0; text-align: center; font-size: 14px; }
+        .form-section { padding: 80px 0; background: white; }
+        .contact-form { max-width: 600px; margin: 40px auto; display: grid; gap: 15px; }
+        .contact-form input, .contact-form select, .contact-form textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; }
+        .btn-submit { background: var(--charcoal); color: white; padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-weight: 700; }
+
+        .newsletter { background: var(--charcoal); color: var(--cream); padding: 60px 0; text-align: center; }
+        .newsletter input { padding: 12px; border-radius: 8px; border: none; width: 250px; margin: 5px; }
+        
+        footer { background: #1a1a18; color: var(--cream); padding: 40px 0; text-align: center; font-size: 14px; }
     </style>
 </head>
 <body>
@@ -52,7 +57,6 @@
         <nav>
             <a href="#loja">Loja</a>
             <a href="#receitas">Receitas</a>
-            <a href="#sobre">Sobre</a>
             <a href="#contato">Contato</a>
         </nav>
     </div>
@@ -60,9 +64,8 @@
 
 <section class="hero">
     <div class="wrap">
-        <span style="color: var(--tomato); font-weight: 700; text-transform: uppercase; letter-spacing: 2px; font-size: 12px;">Feito em casa, do jeito certo</span>
+        <span style="color: var(--tomato); font-weight: 700; text-transform: uppercase; font-size: 12px;">Feito em casa, do jeito certo</span>
         <h1>Comida de <i>verdade</i>,<br>receita por receita.</h1>
-        <p>Receitas testadas, medidas e agora organizadas em guias práticos para você nunca mais errar na cozinha.</p>
     </div>
 </section>
 
@@ -73,53 +76,101 @@
             <div class="book-card">
                 <span class="book-badge">Amostra Especial</span>
                 <h3 class="book-title">Mini Livro: As 10 Favoritas</h3>
-                <p>Uma seleção estratégica das receitas mais amadas da Homemade Foods para resultados rápidos.</p>
-                <div class="book-price"><span>R$ 27</span> R$ 17</div>
+                <p>Uma seleção estratégica das receitas mais amadas.</p>
+                <div class="book-price">R$ 17</div>
                 <a href="SEU_LINK_KIWIFY_MINI" class="btn-buy">Comprar Agora</a>
             </div>
-            
             <div class="book-card" style="border: 2px solid var(--mustard);">
-                <div style="position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: var(--mustard); color: var(--charcoal); padding: 4px 16px; border-radius: 20px; font-size: 11px; font-weight: 800;">MAIS VENDIDO</div>
                 <span class="book-badge" style="background: var(--charcoal);">Bíblia Culinária</span>
                 <h3 class="book-title">Sabores Inesquecíveis: 50 Receitas</h3>
-                <p>O guia definitivo com 50 receitas exclusivas divididas em 3 capítulos: Doces, Carnes e Massas.</p>
-                <div class="book-price"><span>R$ 97</span> R$ 47</div>
+                <p>O guia definitivo com 50 receitas exclusivas.</p>
+                <div class="book-price">R$ 47</div>
                 <a href="SEU_LINK_KIWIFY_COMPLETO" class="btn-buy" style="background: var(--mustard); color: var(--charcoal);">Garantir Minha Cópia</a>
             </div>
         </div>
-        <p style="text-align: center; margin-top: 40px; font-size: 14px; opacity: 0.6;">✓ Acesso imediato via E-mail | ✓ Pagamento Seguro | ✓ 7 Dias de Garantia</p>
     </div>
 </section>
 
 <section id="receitas" class="recipes-section">
     <div class="wrap">
-        <h2 style="font-family: 'Fraunces', serif; font-size: 2rem;">Receitas Gratuitas</h2>
+        <h2 style="font-family: 'Fraunces', serif; font-size: 2rem; text-align: center;">Experimente Gratuitamente</h2>
         <div class="recipe-grid">
+            <!-- PÃO DE QUEIJO -->
             <div class="recipe-card">
                 <h3>Pão de Queijo</h3>
                 <p>A bolinha que some da mesa antes de esfriar.</p>
-                <a href="#loja" style="color: var(--tomato); font-weight: 700; font-size: 13px;">VER RECEITA COMPLETA →</a>
+                <button onclick="toggleRecipe('pao')" style="background:none; border:none; color:var(--tomato); font-weight:700; cursor:pointer; padding:0;">LER RECEITA COMPLETA ↓</button>
+                <div id="pao" class="recipe-content">
+                    <p><strong>Ingredientes:</strong> Polvilho, queijo, ovos, leite e óleo.</p>
+                    <p><strong>Preparo:</strong> Misture tudo até formar uma massa homogênea, faça bolinhas e asse por 25 min.</p>
+                    <a href="#loja" style="display:block; margin-top:20px; background:#f3e8d6; padding:10px; border-radius:8px; text-decoration:none; color:var(--charcoal); font-weight:700; font-size:12px; text-align:center;">✨ QUER MAIS 49 RECEITAS? CONHEÇA O LIVRO COMPLETO!</a>
+                </div>
             </div>
+            <!-- BOLO DE FUBÁ -->
             <div class="recipe-card">
                 <h3>Bolo de Fubá</h3>
                 <p>Casca fininha por cima, camada cremosa no meio.</p>
-                <a href="#loja" style="color: var(--tomato); font-weight: 700; font-size: 13px;">VER RECEITA COMPLETA →</a>
+                <button onclick="toggleRecipe('fuba')" style="background:none; border:none; color:var(--tomato); font-weight:700; cursor:pointer; padding:0;">LER RECEITA COMPLETA ↓</button>
+                <div id="fuba" class="recipe-content">
+                    <p><strong>Ingredientes:</strong> Fubá, leite, ovos, açúcar e queijo ralado.</p>
+                    <p><strong>Preparo:</strong> Bata no liquidificador e asse em forno médio até dourar.</p>
+                    <a href="#loja" style="display:block; margin-top:20px; background:#f3e8d6; padding:10px; border-radius:8px; text-decoration:none; color:var(--charcoal); font-weight:700; font-size:12px; text-align:center;">✨ ESTA É APENAS UMA DAS 50 RECEITAS. GARANTA O LIVRO!</a>
+                </div>
             </div>
+            <!-- BRIGADEIRO -->
             <div class="recipe-card">
                 <h3>Brigadeiro</h3>
                 <p>O doce que aparece em toda festa e some primeiro.</p>
-                <a href="#loja" style="color: var(--tomato); font-weight: 700; font-size: 13px;">VER RECEITA COMPLETA →</a>
+                <button onclick="toggleRecipe('brigadeiro')" style="background:none; border:none; color:var(--tomato); font-weight:700; cursor:pointer; padding:0;">LER RECEITA COMPLETA ↓</button>
+                <div id="brigadeiro" class="recipe-content">
+                    <p><strong>Ingredientes:</strong> Leite condensado, manteiga e chocolate em pó.</p>
+                    <p><strong>Preparo:</strong> Cozinhe em fogo baixo até desgrudar do fundo da panela.</p>
+                    <a href="#loja" style="display:block; margin-top:20px; background:#f3e8d6; padding:10px; border-radius:8px; text-decoration:none; color:var(--charcoal); font-weight:700; font-size:12px; text-align:center;">✨ LEVE O GUIA COMPLETO DE SOBREMESAS POR R$ 47!</a>
+                </div>
             </div>
         </div>
+    </div>
+</section>
+
+<section id="contato" class="form-section">
+    <div class="wrap">
+        <h2 style="text-align: center;">Envie sua mensagem</h2>
+        <form class="contact-form">
+            <input type="text" placeholder="Seu nome" required>
+            <input type="email" placeholder="Seu e-mail" required>
+            <select>
+                <option>Sugestão de receita</option>
+                <option>Erro ou problema</option>
+                <option>Outro</option>
+            </select>
+            <textarea placeholder="Como podemos ajudar?" rows="4" required></textarea>
+            <button type="submit" class="btn-submit">Enviar mensagem</button>
+        </form>
+    </div>
+</section>
+
+<section class="newsletter">
+    <div class="wrap">
+        <h2>Receba novas receitas</h2>
+        <p>Uma vez por semana, direto na sua caixa de entrada.</p>
+        <input type="text" placeholder="Seu nome">
+        <input type="email" placeholder="Seu e-mail">
+        <button class="btn-submit" style="background:var(--mustard); color:var(--charcoal); width:auto; padding:12px 30px;">Quero receber</button>
     </div>
 </section>
 
 <footer>
     <div class="wrap">
         <p>Homemade Foods © 2026. Todos os direitos reservados.</p>
-        <p style="opacity: 0.5; margin-top: 10px;">Feito com amor por quem cozinha de verdade.</p>
     </div>
 </footer>
+
+<script>
+    function toggleRecipe(id) {
+        const content = document.getElementById(id);
+        content.classList.toggle('active');
+    }
+</script>
 
 </body>
 </html>
