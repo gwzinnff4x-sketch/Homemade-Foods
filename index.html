@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Homemade Foods — Receitas de Verdade</title>
+    <title>Sabores de Casa — 50 Receitas Reais</title>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -44,7 +44,6 @@
         .contact-form input, .contact-form select, .contact-form textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; }
         .btn-submit { background: var(--charcoal); color: white; padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-weight: 700; }
 
-
         .newsletter { background: var(--charcoal); color: var(--cream); padding: 60px 0; text-align: center; }
         .newsletter input { padding: 12px; border-radius: 8px; border: none; width: 250px; margin: 5px; }
         
@@ -53,10 +52,9 @@
 </head>
 <body>
 
-
 <header>
     <div class="wrap">
-        <div class="brand">Homemade Foods</div>
+        <div class="brand">Sabores de Casa</div>
         <nav>
             <a href="#loja">Loja</a>
             <a href="#receitas">Receitas</a>
@@ -65,14 +63,12 @@
     </div>
 </header>
 
-
 <section class="hero">
     <div class="wrap">
-        <span style="color: var(--tomato); font-weight: 700; text-transform: uppercase; font-size: 12px;">Feito em casa, do jeito certo</span>
-        <h1>Comida de <i>verdade</i>,<br>receita por receita.</h1>
+        <span style="color: var(--tomato); font-weight: 700; text-transform: uppercase; font-size: 12px;">Receitas Reais para Pessoas Reais</span>
+        <h1>Sabores de <i>Casa</i>,<br>50 receitas de verdade.</h1>
     </div>
 </section>
-
 
 <section id="loja" class="store-section">
     <div class="wrap">
@@ -83,64 +79,62 @@
                 <h3 class="book-title">Mini Livro: As 10 Favoritas</h3>
                 <p>Uma seleção estratégica das receitas mais amadas.</p>
                 <div class="book-price">R$ 17</div>
-                <a href="SEU_LINK_KIWIFY_MINI" class="btn-buy">Comprar Agora</a>
+                <a href="ebook_sabores_de_casa.pdf" class="btn-buy" download>Comprar Agora</a>
             </div>
             <div class="book-card" style="border: 2px solid var(--mustard);">
                 <span class="book-badge" style="background: var(--charcoal);">Bíblia Culinária</span>
-                <h3 class="book-title">Sabores Inesquecíveis: 50 Receitas</h3>
-                <p>O guia definitivo com 50 receitas exclusivas.</p>
+                <h3 class="book-title">Sabores de Casa: 50 Receitas</h3>
+                <p>O guia definitivo com 50 receitas reais para o seu dia a dia.</p>
                 <div class="book-price">R$ 47</div>
-                <a href="SEU_LINK_KIWIFY_COMPLETO" class="btn-buy" style="background: var(--mustard); color: var(--charcoal);">Garantir Minha Cópia</a>
+                <a href="ebook_sabores_de_casa.pdf" class="btn-buy" style="background: var(--mustard); color: var(--charcoal);" download>Garantir Minha Cópia</a>
             </div>
         </div>
     </div>
 </section>
-
 
 <section id="receitas" class="recipes-section">
     <div class="wrap">
         <h2 style="font-family: 'Fraunces', serif; font-size: 2rem; text-align: center;">Experimente Gratuitamente</h2>
         <div class="recipe-grid">
-            <!-- PÃO DE QUEIJO -->
+            <!-- BOLO DE CHOCOLATE -->
             <div class="recipe-card">
-                <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663845931956/yYfXkbKALFfqCGWE.png" alt="Pão de Queijo caseiro">
-                <h3>Pão de Queijo</h3>
-                <p>A bolinha que some da mesa antes de esfriar.</p>
-                <button onclick="toggleRecipe('pao')" style="background:none; border:none; color:var(--tomato); font-weight:700; cursor:pointer; padding:0;">LER RECEITA COMPLETA ↓</button>
-                <div id="pao" class="recipe-content">
-                    <p><strong>Ingredientes:</strong> Polvilho, queijo, ovos, leite e óleo.</p>
-                    <p><strong>Preparo:</strong> Misture tudo até formar uma massa homogênea, faça bolinhas e asse por 25 min.</p>
-                    <a href="#loja" style="display:block; margin-top:20px; background:#f3e8d6; padding:10px; border-radius:8px; text-decoration:none; color:var(--charcoal); font-weight:700; font-size:12px; text-align:center;">✨ QUER MAIS 49 RECEITAS? CONHEÇA O LIVRO COMPLETO!</a>
+                <img src="images/ultra_caseiro_01_bolo_chocolate.png" alt="Bolo de Chocolate fofinho">
+                <h3>Bolo de Chocolate</h3>
+                <p>Aquele bolo fofinho que perfuma a casa toda.</p>
+                <button onclick="toggleRecipe('chocolate')" style="background:none; border:none; color:var(--tomato); font-weight:700; cursor:pointer; padding:0;">LER RECEITA COMPLETA ↓</button>
+                <div id="chocolate" class="recipe-content">
+                    <p><strong>Ingredientes:</strong> Ovos, açúcar, óleo, leite morno, chocolate em pó, farinha e fermento.</p>
+                    <p><strong>Preparo:</strong> Misture tudo, asse por 35 min e sinta o aroma tomar conta da cozinha.</p>
+                    <a href="#loja" style="display:block; margin-top:20px; background:#f3e8d6; padding:10px; border-radius:8px; text-decoration:none; color:var(--charcoal); font-weight:700; font-size:12px; text-align:center;">✨ QUER AS OUTRAS 49 RECEITAS? BAIXE O LIVRO COMPLETO!</a>
                 </div>
             </div>
-            <!-- BOLO DE FUBÁ -->
+            <!-- ARROZ DOCE -->
             <div class="recipe-card">
-                <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663845931956/YzqWLFNLQmlNFyaU.png" alt="Bolo de Fubá cremoso">
-                <h3>Bolo de Fubá</h3>
-                <p>Casca fininha por cima, camada cremosa no meio.</p>
-                <button onclick="toggleRecipe('fuba')" style="background:none; border:none; color:var(--tomato); font-weight:700; cursor:pointer; padding:0;">LER RECEITA COMPLETA ↓</button>
-                <div id="fuba" class="recipe-content">
-                    <p><strong>Ingredientes:</strong> Fubá, leite, ovos, açúcar e queijo ralado.</p>
-                    <p><strong>Preparo:</strong> Bata no liquidificador e asse em forno médio até dourar.</p>
+                <img src="images/ultra_caseiro_02_arroz_doce.png" alt="Arroz Doce cremoso">
+                <h3>Arroz Doce</h3>
+                <p>Cremoso, quentinho e com aquele toque de canela.</p>
+                <button onclick="toggleRecipe('arroz')" style="background:none; border:none; color:var(--tomato); font-weight:700; cursor:pointer; padding:0;">LER RECEITA COMPLETA ↓</button>
+                <div id="arroz" class="recipe-content">
+                    <p><strong>Ingredientes:</strong> Arroz, leite, leite condensado, açúcar e canela em pau.</p>
+                    <p><strong>Preparo:</strong> Cozinhe o arroz e depois adicione os leites até ficar bem cremoso.</p>
                     <a href="#loja" style="display:block; margin-top:20px; background:#f3e8d6; padding:10px; border-radius:8px; text-decoration:none; color:var(--charcoal); font-weight:700; font-size:12px; text-align:center;">✨ ESTA É APENAS UMA DAS 50 RECEITAS. GARANTA O LIVRO!</a>
                 </div>
             </div>
-            <!-- BRIGADEIRO -->
+            <!-- PUDIM DE COCO -->
             <div class="recipe-card">
-                <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663845931956/OJmxqIaxpesUXUOx.png" alt="Brigadeiro caseiro">
-                <h3>Brigadeiro</h3>
-                <p>O doce que aparece em toda festa e some primeiro.</p>
-                <button onclick="toggleRecipe('brigadeiro')" style="background:none; border:none; color:var(--tomato); font-weight:700; cursor:pointer; padding:0;">LER RECEITA COMPLETA ↓</button>
-                <div id="brigadeiro" class="recipe-content">
-                    <p><strong>Ingredientes:</strong> Leite condensado, manteiga e chocolate em pó.</p>
-                    <p><strong>Preparo:</strong> Cozinhe em fogo baixo até desgrudar do fundo da panela.</p>
-                    <a href="#loja" style="display:block; margin-top:20px; background:#f3e8d6; padding:10px; border-radius:8px; text-decoration:none; color:var(--charcoal); font-weight:700; font-size:12px; text-align:center;">✨ LEVE O GUIA COMPLETO DE SOBREMESAS POR R$ 47!</a>
+                <img src="images/ultra_caseiro_03_pudim_coco.png" alt="Pudim de Coco caseiro">
+                <h3>Pudim de Coco</h3>
+                <p>Uma sobremesa clássica que derrete na boca.</p>
+                <button onclick="toggleRecipe('pudim')" style="background:none; border:none; color:var(--tomato); font-weight:700; cursor:pointer; padding:0;">LER RECEITA COMPLETA ↓</button>
+                <div id="pudim" class="recipe-content">
+                    <p><strong>Ingredientes:</strong> Leite condensado, leite de coco, ovos e coco ralado.</p>
+                    <p><strong>Preparo:</strong> Bata tudo e asse em banho-maria com uma calda de caramelo dourada.</p>
+                    <a href="#loja" style="display:block; margin-top:20px; background:#f3e8d6; padding:10px; border-radius:8px; text-decoration:none; color:var(--charcoal); font-weight:700; font-size:12px; text-align:center;">✨ LEVE O GUIA COMPLETO DE RECEITAS POR R$ 47!</a>
                 </div>
             </div>
         </div>
     </div>
 </section>
-
 
 <section id="contato" class="form-section">
     <div class="wrap">
@@ -159,7 +153,6 @@
     </div>
 </section>
 
-
 <section class="newsletter">
     <div class="wrap">
         <h2>Receba novas receitas</h2>
@@ -170,13 +163,11 @@
     </div>
 </section>
 
-
 <footer>
     <div class="wrap">
-        <p>Homemade Foods © 2026. Todos os direitos reservados.</p>
+        <p>Sabores de Casa © 2026. Todos os direitos reservados.</p>
     </div>
 </footer>
-
 
 <script>
     function toggleRecipe(id) {
@@ -184,7 +175,6 @@
         content.classList.toggle('active');
     }
 </script>
-
 
 </body>
 </html>
