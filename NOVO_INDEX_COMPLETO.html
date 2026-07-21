@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homemade Foods — Receitas de Verdade</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --charcoal: #232320;
+            --cream: #FBF3E7;
+            --tomato: #C1442E;
+            --mustard: #E3A23A;
+            --sage: #6E7F5C;
+        }
+        * { box-sizing: border-box; }
+        body { margin: 0; background: var(--cream); color: var(--charcoal); font-family: 'Inter', sans-serif; line-height: 1.6; }
+        .wrap { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+        header { background: var(--charcoal); color: var(--cream); padding: 20px 0; position: sticky; top: 0; z-index: 100; }
+        header .wrap { display: flex; justify-content: space-between; align-items: center; }
+        .brand { font-family: 'Fraunces', serif; font-size: 24px; font-weight: 700; }
+        nav a { color: var(--cream); text-decoration: none; margin-left: 20px; font-size: 14px; opacity: 0.8; }
+        nav a:hover { opacity: 1; }
+        
+        .hero { padding: 100px 0; text-align: center; }
+        .hero h1 { font-family: 'Fraunces', serif; font-size: 4rem; margin: 0; line-height: 1.1; }
+        .hero p { font-size: 1.2rem; max-width: 600px; margin: 20px auto; opacity: 0.8; }
+        
+        .store-section { padding: 80px 0; background: #f3e8d6; border-top: 1px solid rgba(0,0,0,0.05); }
+        .store-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 40px; }
+        .book-card { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: 0.3s; position: relative; }
+        .book-card:hover { transform: translateY(-10px); }
+        .book-badge { background: var(--tomato); color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 20px; display: inline-block; }
+        .book-title { font-family: 'Fraunces', serif; font-size: 1.8rem; margin: 0 0 15px; }
+        .book-price { font-size: 2.2rem; font-weight: 700; margin: 20px 0; }
+        .book-price span { font-size: 1.1rem; text-decoration: line-through; opacity: 0.4; font-weight: 400; margin-right: 10px; }
+        .btn-buy { background: var(--charcoal); color: white; padding: 16px 32px; border-radius: 50px; text-decoration: none; display: block; text-align: center; font-weight: 700; transition: 0.3s; }
+        .btn-buy:hover { background: var(--tomato); }
+        
+        .recipes-section { padding: 80px 0; }
+        .recipe-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 40px; }
+        .recipe-card { border: 1px solid rgba(0,0,0,0.1); padding: 20px; border-radius: 12px; }
+        
+        footer { background: var(--charcoal); color: var(--cream); padding: 60px 0; text-align: center; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="wrap">
+        <div class="brand">Homemade Foods</div>
+        <nav>
+            <a href="#loja">Loja</a>
+            <a href="#receitas">Receitas</a>
+            <a href="#sobre">Sobre</a>
+            <a href="#contato">Contato</a>
+        </nav>
+    </div>
+</header>
+
+<section class="hero">
+    <div class="wrap">
+        <span style="color: var(--tomato); font-weight: 700; text-transform: uppercase; letter-spacing: 2px; font-size: 12px;">Feito em casa, do jeito certo</span>
+        <h1>Comida de <i>verdade</i>,<br>receita por receita.</h1>
+        <p>Receitas testadas, medidas e agora organizadas em guias práticos para você nunca mais errar na cozinha.</p>
+    </div>
+</section>
+
+<section id="loja" class="store-section">
+    <div class="wrap">
+        <h2 style="font-family: 'Fraunces', serif; font-size: 2.5rem; text-align: center;">Nossos Livros de Receitas</h2>
+        <div class="store-grid">
+            <div class="book-card">
+                <span class="book-badge">Amostra Especial</span>
+                <h3 class="book-title">Mini Livro: As 10 Favoritas</h3>
+                <p>Uma seleção estratégica das receitas mais amadas da Homemade Foods para resultados rápidos.</p>
+                <div class="book-price"><span>R$ 27</span> R$ 17</div>
+                <a href="SEU_LINK_KIWIFY_MINI" class="btn-buy">Comprar Agora</a>
+            </div>
+            
+            <div class="book-card" style="border: 2px solid var(--mustard);">
+                <div style="position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: var(--mustard); color: var(--charcoal); padding: 4px 16px; border-radius: 20px; font-size: 11px; font-weight: 800;">MAIS VENDIDO</div>
+                <span class="book-badge" style="background: var(--charcoal);">Bíblia Culinária</span>
+                <h3 class="book-title">Sabores Inesquecíveis: 50 Receitas</h3>
+                <p>O guia definitivo com 50 receitas exclusivas divididas em 3 capítulos: Doces, Carnes e Massas.</p>
+                <div class="book-price"><span>R$ 97</span> R$ 47</div>
+                <a href="SEU_LINK_KIWIFY_COMPLETO" class="btn-buy" style="background: var(--mustard); color: var(--charcoal);">Garantir Minha Cópia</a>
+            </div>
+        </div>
+        <p style="text-align: center; margin-top: 40px; font-size: 14px; opacity: 0.6;">✓ Acesso imediato via E-mail | ✓ Pagamento Seguro | ✓ 7 Dias de Garantia</p>
+    </div>
+</section>
+
+<section id="receitas" class="recipes-section">
+    <div class="wrap">
+        <h2 style="font-family: 'Fraunces', serif; font-size: 2rem;">Receitas Gratuitas</h2>
+        <div class="recipe-grid">
+            <div class="recipe-card">
+                <h3>Pão de Queijo</h3>
+                <p>A bolinha que some da mesa antes de esfriar.</p>
+                <a href="#loja" style="color: var(--tomato); font-weight: 700; font-size: 13px;">VER RECEITA COMPLETA →</a>
+            </div>
+            <div class="recipe-card">
+                <h3>Bolo de Fubá</h3>
+                <p>Casca fininha por cima, camada cremosa no meio.</p>
+                <a href="#loja" style="color: var(--tomato); font-weight: 700; font-size: 13px;">VER RECEITA COMPLETA →</a>
+            </div>
+            <div class="recipe-card">
+                <h3>Brigadeiro</h3>
+                <p>O doce que aparece em toda festa e some primeiro.</p>
+                <a href="#loja" style="color: var(--tomato); font-weight: 700; font-size: 13px;">VER RECEITA COMPLETA →</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="wrap">
+        <p>Homemade Foods © 2026. Todos os direitos reservados.</p>
+        <p style="opacity: 0.5; margin-top: 10px;">Feito com amor por quem cozinha de verdade.</p>
+    </div>
+</footer>
+
+</body>
+</html>
